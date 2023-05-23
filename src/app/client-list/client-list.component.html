@@ -1,0 +1,51 @@
+<div class="container">
+
+    <div class="row pt-2">
+        <h4>Ügyfélkezelői oldal:</h4>
+        <p></p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">ID</div>
+        <div class="col-md-1">Keresztnév</div>
+        <div class="col-md-1">Vezetéknév</div>
+        <div class="col-md-2">Cím</div>
+        <div class="col-md-2">Telefonszám</div>
+        <div class="col-md-2">Személyi</div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">Keresés: </div>
+        <div class="col-md-1">
+            <input type="text" class="form-control" id="clientFirstName" name="clientFirstName" placeholder="...">
+        </div>
+        <div class="col-md-1">
+            <input type="text" class="form-control" id="clientlastName" name="clientLastName" placeholder="...">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" id="clientAddress" name="clientAddress" placeholder="...">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" id="clientPhone" name="clientPhone" placeholder="...">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" id="clientIDCard" name="clientIDCard" placeholder="...">
+        </div>
+        
+    </div>
+
+    <div class="row" *ngFor="let client of clients" [class.text-danger]="isInactive(client)">
+
+        <div class="col-md-1">{{ client.id }}</div>
+        <div class="col-md-1">{{ client.firstname }}</div>
+        <div class="col-md-1">{{ client.lastname }}</div>
+        <div class="col-md-2">{{ client.address }}</div>
+        <div class="col-md-2">{{ client.phonenumber }}</div>
+        <div class="col-md-2">{{ client.idcardnumber }}</div>
+        <div class="col-md-1"><button class="deleteButton" (click)="deleteClient(client)">Töröl</button></div>
+        <div class="col-md-1"><button class="modifyButton" >Módosít</button></div>
+        <div class="col-md-1"><button class="accountButton" >Számla</button></div>
+
+    </div>    
+</div>
