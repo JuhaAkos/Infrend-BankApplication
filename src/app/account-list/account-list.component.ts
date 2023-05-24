@@ -13,16 +13,19 @@ import { ClientService } from '../services/client.service';
 export class AccountListComponent {
 
   constructor(   
-    private ClientService: ClientService,
+    private clientService: ClientService,
     private toastrService: ToastrService,
     private activatedRoute: ActivatedRoute) { }
 
-  client!: ClientDTO;
+  client?: ClientDTO;
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.params['id'];
-    this.ClientService.getOne(id).subscribe({
-      next: (client) => this.client = client
+    this.clientService.getOne(id).subscribe({
+      next: (client) => {
+        this.client = client;
+        console.log(this.client.accounts);
+      }
     });
   }
 }

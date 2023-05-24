@@ -26,6 +26,6 @@ export class Client implements ClientDTO{
     @Column()
     status: "active" | "inactive";
 
-    @OneToMany(type => Account, account => account.client)
+    @OneToMany(type => Account, account => account.client, { eager:true })
     accounts: Account[];
 }
