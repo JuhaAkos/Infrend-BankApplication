@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { ClientDTO } from 'models';
 import { ClientService } from '../services/client.service';
 
+import { AccountDTO } from 'models';
+import { AccountService } from '../services/account.service';
+
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
@@ -12,17 +15,29 @@ import { ClientService } from '../services/client.service';
 })
 export class AccountListComponent {
 
+  accounts: AccountDTO[] = [];
+
   constructor(   
-    private ClientService: ClientService,
-    private toastrService: ToastrService,
+    private clientService: ClientService,
+    private accountService: AccountService,
     private activatedRoute: ActivatedRoute) { }
 
-  client!: ClientDTO;
+  client?: ClientDTO;
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.params['id'];
-    this.ClientService.getOne(id).subscribe({
-      next: (client) => this.client = client
+    this.clientService.getOne(id).subscribe({
+      next: (client) => {
+        this.client = client;
+        console.log(this.client.accounts);
+      }
+    });
+
+    this.accountService.getAll().subscribe({
+      next: (accounts) => {
+        this.accounts = accounts;
+      }
+      //,error: (err) => {this.toastrService.error('A termék hozzáadása nem sikerült.', 'Hiba');}
     });
   }
 }

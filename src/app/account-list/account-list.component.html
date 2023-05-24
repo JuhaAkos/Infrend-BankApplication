@@ -1,4 +1,19 @@
 <div class="container">
-    <p>Accounts:</p>
-    <h4>{{client.lastname}} {{client.firstname}} számlái:</h4>
+    <h4>{{client?.lastname}} {{client?.firstname}} számlái:</h4>
+
+    <div class="row">
+        <div class="col-md-2">ID</div>
+        <div class="col-md-3">Kezdeti egyenleg</div>
+        <div class="col-md-3">Jelenlegi egyenleg</div>
+    </div>
+
+    <div class="row" *ngFor="let account of accounts">
+
+        <div class="col-md-2">{{ account.id }}</div>
+        <div class="col-md-3">{{ account.startingBalance }}</div>
+        <div class="col-md-3">{{ account.balance }}</div>
+        <div class="col-md-2"><button class="deleteButton">Kinullázás</button></div>
+        <div class="col-md-2"><button class="accountButton">Tranzakciók</button></div>
+
+    </div>  
 </div>
