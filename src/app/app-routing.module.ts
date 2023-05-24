@@ -5,6 +5,7 @@ import { MainmenuComponent } from './mainmenu/mainmenu.component';
 import { ClientListComponent } from './client-list/client-list.component';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { AccountListComponent } from './account-list/account-list.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,11 @@ const routes: Routes = [
   {
     path: 'transaction',
     component: TransactionListComponent
+  }
+  ,
+  {
+    path: 'account/:id',
+    component: AccountListComponent
   }
 ];
 

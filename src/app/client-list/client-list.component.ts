@@ -51,5 +51,9 @@ export class ClientListComponent {
       }
     });
   }
+
+  navigateToAccount(id : number) {
+    this.router.navigate(['/account', id]);
+  }
  
 }

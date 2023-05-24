@@ -45,7 +45,7 @@
         <div class="col-md-2">{{ client.idcardnumber }}</div>
         <div class="col-md-1"><button class="deleteButton" (click)="deleteClient(client)">Töröl</button></div>
         <div class="col-md-1"><button class="modifyButton" >Módosít</button></div>
-        <div class="col-md-1"><button class="accountButton" >Számla</button></div>
+        <div class="col-md-1"><button class="accountButton" (click)="navigateToAccount(client.id)">Számla</button></div>
 
     </div>    
 </div>

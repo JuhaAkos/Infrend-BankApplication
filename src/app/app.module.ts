@@ -12,6 +12,7 @@ import { ClientListComponent } from './client-list/client-list.component';
 import { MainmenuComponent } from './mainmenu/mainmenu.component';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { AccountListComponent } from './account-list/account-list.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
     MainmenuComponent,
     ClientFormComponent,
     TransactionListComponent,
+    AccountListComponent,
   ],
   imports: [
     BrowserModule,
