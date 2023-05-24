@@ -9,7 +9,7 @@ export function getRoutes() {
     const clientController = new ClientController();
 
     router.get('/clients', clientController.getAll);
-    router.get('/clientss/:id', clientController.getOne);
+    router.get('/clients/:id', clientController.getOne);
     router.post('/clients/', clientController.create);
     router.put('/clients/', clientController.update);
     router.delete('/clients/:id', clientController.delete);
