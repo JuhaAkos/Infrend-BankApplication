@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 
 import { ClientDTO } from 'models';
 import { ClientService } from '../services/client.service';
 
-import { AccountDTO } from 'models';
-import { AccountService } from '../services/account.service';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-list',
@@ -15,13 +12,13 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./account-list.component.css']
 })
 export class AccountListComponent {
-  accounts: AccountDTO[] = [];
+  isItSender: boolean = false;
 
   constructor(   
     private clientService: ClientService,
-    private accountService: AccountService,
-    private http: HttpClient,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+    ) { }
 
   client?: ClientDTO;
 
@@ -30,13 +27,15 @@ export class AccountListComponent {
     this.clientService.getOne(id).subscribe({
       next: (client) => {
         this.client = client;
-        console.log(this.client.accounts);
+        //console.log(this.client.accounts);
 
-        console.log(client.accounts);
+        //console.log(client.accounts);
       }
-    }); 
-   
-    
+    });    
+  }
+
+  navigateToTransaction(id : number) {
+    this.router.navigate(['/transaction', id]);
   }
 
   

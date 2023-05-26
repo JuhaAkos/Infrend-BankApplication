@@ -7,13 +7,13 @@
         <div class="col-md-3">Jelenlegi egyenleg</div>
     </div>
 
-    <div class="row" *ngFor="let account of accounts">
+    <div class="row" *ngFor="let account of client?.accounts">
 
         <div class="col-md-2">{{ account.id }}</div>
         <div class="col-md-3">{{ account.startingBalance }}</div>
         <div class="col-md-3">{{ account.balance }}</div>
         <div class="col-md-2"><button class="deleteButton">Kinullázás</button></div>
-        <div class="col-md-2"><button class="accountButton">Tranzakciók</button></div>
+        <div class="col-md-2"><button class="accountButton" (click)="navigateToTransaction(account.id)">Tranzakciók</button></div>
 
     </div>  
 </div>

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm"
 import { ClientDTO } from "../../../models";
 import { Account } from "./Account";
 

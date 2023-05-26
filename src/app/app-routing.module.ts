@@ -21,13 +21,12 @@ const routes: Routes = [
     component: ClientFormComponent
   },
   {
-    path: 'transaction',
-    component: TransactionListComponent
-  }
-  ,
-  {
     path: 'account/:id',
     component: AccountListComponent
+  },
+  {
+    path: 'transaction/:id',
+    component: TransactionListComponent
   }
 ];
 

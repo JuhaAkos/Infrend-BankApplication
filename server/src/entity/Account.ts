@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne} from "typeorm"
 import { AccountDTO } from "../../../models";
 import { Transaction } from "./Transaction";
 import { Client } from "./Client";
@@ -18,9 +18,9 @@ export class Account implements AccountDTO{
     @ManyToOne(type => Client, (client) => client.accounts)
     client: Client;
 
-    @OneToMany(type => Transaction, (transaction) => transaction.sender)
+    @OneToMany(type => Transaction, (transaction) => transaction.sender, { eager: true })
     sendertransactions: Transaction[];
 
-    @OneToMany(type => Transaction, (transaction) => transaction.receiver)
+    @OneToMany(type => Transaction, (transaction) => transaction.receiver, { eager: true })
     receivertransactions: Transaction[];
 }
