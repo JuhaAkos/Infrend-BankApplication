@@ -7,6 +7,7 @@ import { ClientService } from '../services/client.service';
 
 import { AccountDTO } from 'models';
 import { AccountService } from '../services/account.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-account-list',
@@ -14,12 +15,12 @@ import { AccountService } from '../services/account.service';
   styleUrls: ['./account-list.component.css']
 })
 export class AccountListComponent {
-
   accounts: AccountDTO[] = [];
 
   constructor(   
     private clientService: ClientService,
     private accountService: AccountService,
+    private http: HttpClient,
     private activatedRoute: ActivatedRoute) { }
 
   client?: ClientDTO;
@@ -30,14 +31,13 @@ export class AccountListComponent {
       next: (client) => {
         this.client = client;
         console.log(this.client.accounts);
-      }
-    });
 
-    this.accountService.getAll().subscribe({
-      next: (accounts) => {
-        this.accounts = accounts;
+        console.log(client.accounts);
       }
-      //,error: (err) => {this.toastrService.error('A termék hozzáadása nem sikerült.', 'Hiba');}
-    });
+    }); 
+   
+    
   }
+
+  
 }
