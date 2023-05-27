@@ -29,7 +29,11 @@ export abstract class Controller {
     create = async (req, res) => {
         try {
             const entity = this.repository.create(req.body as object);
-            entity.id = null;
+            //change is for id generation
+            if (entity.id == undefined){
+                entity.id = null;
+            }   
+            
 
             const result = await this.repository.save(entity);
             

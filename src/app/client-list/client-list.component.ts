@@ -54,5 +54,9 @@ export class ClientListComponent {
   navigateToAccount(id : number) {
     this.router.navigate(['/account', id]);
   }
+
+  navigateToForm(id : number) {
+    this.router.navigate(['/client-list/form', id]);
+  }
  
 }

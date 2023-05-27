@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm"
+import { Entity, Column, OneToMany, PrimaryColumn} from "typeorm"
 import { ClientDTO } from "../../../models";
 import { Account } from "./Account";
 
 @Entity()
 export class Client implements ClientDTO{
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     id: number;
 
     @Column()

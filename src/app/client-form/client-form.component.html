@@ -1,1 +1,58 @@
-<p>client-form works!</p>
+<div class="container">
+    <div class="row pt-2">
+        <h4>Ügyfélfelvevői oldal:</h4>
+        <p></p>
+    </div>
+
+    <div class="container">
+        <form [formGroup]="clientForm">
+
+        
+        <label for="name" class="form-label">ID (generálva lesz)</label>
+        
+        <input class="form-control" id="id" name="id" placeholder="{{generatedid}}" readonly> 
+        
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Vezetéknév</label>
+                <input type="text" class="form-control" id="lastname" name="lastname" formControlName="lastname">
+            </div>
+            <div class="col-md-6">
+            <label for="name" class="form-label">Keresztnév</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" formControlName="firstname">
+            </div>
+        </div>
+
+        <label for="name" class="form-label">Cím</label>
+        <input type="text" class="form-control" id="address" name="address" formControlName="address">
+
+        <label for="name" class="form-label">Telefonszám</label>
+        <input type="text" class="form-control" id="phonenumber" name="phonenumber" formControlName="phonenumber">
+
+        <label for="name" class="form-label">Személyi igazolvány szám</label>
+        <input type="text" class="form-control" id="idcardnumber" name="idcardnumber" formControlName="idcardnumber">
+
+    </form>
+    </div>
+
+    <p></p>
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <div class="col-md-3"><button class="btn btn-lg btn-primary" (click)="isReady()">Adatok mentése</button></div>
+
+        </div>
+        <div class="col-md-3">        
+
+            <div *ngIf="readytocreate">
+                <div class="col-md-3"><button class="btn btn-lg btn-primary" (click)="saveClient()">Ügyfél fiók létrehozása</button></div>
+            </div>
+            <div *ngIf="!readytocreate">
+                <div class="col-md-3"><button class="btn btn-lg btn-danger" disabled>Ügyfél fiók létrehozása</button></div>
+            </div>
+        </div>        
+    </div>    
+
+</div>   
