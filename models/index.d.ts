@@ -13,6 +13,7 @@ export interface AccountDTO {
     id: number;
     startingBalance: number;
     balance: number;
+    status: "active" | "inactive";
     sendertransactions: null | TransactionDTO[];
     receivertransactions: null | TransactionDTO[];
     client: ClientDTO;
@@ -23,6 +24,6 @@ export interface TransactionDTO {
     amount: number;
     date: Date;
     sender: null | AccountDTO;
-    receiver: AccountDTO;
+    receiver: null | AccountDTO;
     description: string;
 }

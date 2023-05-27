@@ -44,7 +44,16 @@
         <div class="col-md-2">{{ client.phonenumber }}</div>
         <div class="col-md-2">{{ client.idcardnumber }}</div>
         <div class="col-md-1"><button class="btn btn-primary btn-sm" (click)="deleteClient(client)">Töröl</button></div>
-        <div class="col-md-1"><button class="btn btn-primary btn-sm" (click)="navigateToForm(client.id)">Módosít</button></div>
+
+        <div class="col-md-1">
+            <div *ngIf="isInactive(client)">
+                <button class="btn btn-primary btn-sm" (click)="navigateToForm(client.id)" disabled>Módosít</button>
+            </div>
+            <div *ngIf="!isInactive(client)">
+                <button class="btn btn-primary btn-sm" (click)="navigateToForm(client.id)">Módosít</button>
+            </div>
+        </div>
+        
         <div class="col-md-1"><button class="btn btn-primary btn-sm" (click)="navigateToAccount(client.id)">Számla</button></div>
 
     </div>    

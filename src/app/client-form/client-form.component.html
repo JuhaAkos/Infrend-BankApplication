@@ -1,16 +1,26 @@
 <div class="container">
     <div class="row pt-2">
-        <h4>Ügyfélfelvevői oldal:</h4>
+        <div *ngIf="isNewClient">
+            <h4>Ügyfélfelvevői oldal:</h4>
+        </div>
+        <div *ngIf="!isNewClient">
+            <h4>{{existingclient?.lastname}} {{existingclient?.firstname}} ügyfél adatainak módosítása:</h4>   
+        </div>
         <p></p>
     </div>
 
     <div class="container">
         <form [formGroup]="clientForm">
 
-        
-        <label for="name" class="form-label">ID (generálva lesz)</label>
-        
-        <input class="form-control" id="id" name="id" placeholder="{{generatedid}}" readonly> 
+        <div *ngIf="isNewClient">
+            <label for="name" class="form-label">ID (automatikusan generált)</label>
+        </div>
+        <div *ngIf="!isNewClient">
+            <label for="name" class="form-label">ID</label>     
+        </div>
+
+
+        <input class="form-control" id="id" name="id" formControlName="id" readonly> 
         
 
         <div class="row">
@@ -39,19 +49,16 @@
     <p></p>
 
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-3">
-            <div class="col-md-3"><button class="btn btn-lg btn-primary" (click)="isReady()">Adatok mentése</button></div>
-
-        </div>
-        <div class="col-md-3">        
-
-            <div *ngIf="readytocreate">
+        <div class="col-md-5"></div>
+        <div class="col-md-6">     
+            <div *ngIf="isNewClient">               
                 <div class="col-md-3"><button class="btn btn-lg btn-primary" (click)="saveClient()">Ügyfél fiók létrehozása</button></div>
             </div>
-            <div *ngIf="!readytocreate">
-                <div class="col-md-3"><button class="btn btn-lg btn-danger" disabled>Ügyfél fiók létrehozása</button></div>
-            </div>
+            <div *ngIf="!isNewClient">
+                <div class="col-md-3"><button class="btn btn-lg btn-primary" (click)="saveClient()">Ügyfél fiók módosítása</button></div>
+            </div>   
+
+            
         </div>        
     </div>    
 

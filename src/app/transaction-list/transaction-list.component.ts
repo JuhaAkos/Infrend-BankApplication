@@ -44,7 +44,7 @@ export class TransactionListComponent {
                 if(this.allTransactions[i].sender?.id == this.account?.id){
                     this.senderTransactions.push(this.allTransactions[i]);
                 }
-                if(this.allTransactions[i].receiver.id == this.account?.id){
+                if(this.allTransactions[i].receiver?.id == this.account?.id){
                     this.receiverTransactions.push(this.allTransactions[i]);
                 }
               }

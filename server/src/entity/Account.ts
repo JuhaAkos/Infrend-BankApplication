@@ -15,6 +15,9 @@ export class Account implements AccountDTO{
     @Column()
     balance: number;
 
+    @Column()
+    status: "active" | "inactive";
+
     @ManyToOne(type => Client, (client) => client.accounts)
     client: Client;
 
