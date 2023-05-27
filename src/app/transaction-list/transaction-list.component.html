@@ -1,22 +1,52 @@
 <div class="container">
-    <h4>{{account?.id}} számla trazakciói:</h4>
-  
-    <h4>Fogadott tranzakciók: </h4>
+    <h4>{{account?.id}} számla tranzakciói:</h4>
     <div class="row">
-        <div class="col-md-2">ID</div>
-        <div class="col-md-2">Összeg</div>
-        <div class="col-md-3">Dátum</div>
-        <div class="col-md-2">Küldő</div>
-        <div class="col-md-3">Leírás</div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"><button class="showSenderButton" (click)="showSender()">Küldött tranzakciók mutatása</button></div>
+        <div class="col-md-3"><button class="showReceiverButton" (click)="showReceiver()">Fogadott tranzakciók mutatása</button></div>
     </div>
-  
-    <div class="row" *ngFor="let transaction of account?.receivertransactions">
-  
-        <div class="col-md-2">{{ transaction.id }}</div>
-        <div class="col-md-2">{{ transaction.amount }}</div>
-        <div class="col-md-3">{{ transaction.date }}</div>
-        <div class="col-md-2">{{ transaction.sender?.id }}</div>
-        <div class="col-md-3">{{ transaction.description }}</div>
-  
-    </div>  
+
+
+    <div *ngIf="!sendershown">
+        <h4>Fogadott tranzakciók: </h4>
+        <div class="row">
+            <div class="col-md-2">ID</div>
+            <div class="col-md-2">Összeg</div>
+            <div class="col-md-3">Dátum</div>
+            <div class="col-md-2">Küldő számla</div>
+            <div class="col-md-3">Leírás</div>
+        </div>
+    
+        <div class="row" *ngFor="let transaction of receiverTransactions">
+    
+            <div class="col-md-2">{{ transaction.id }}</div>
+            <div class="col-md-2">{{ transaction.amount }} Ft</div>
+            <div class="col-md-3">{{ transaction.date }}</div>
+            <div class="col-md-2">{{ transaction.sender?.id }}</div>
+            <div class="col-md-3">{{ transaction.description }}</div>
+    
+        </div>  
+    </div> 
+
+
+    <div *ngIf="sendershown">
+        <h4>Küldött tranzakciók: </h4>
+        <div class="row">
+            <div class="col-md-2">ID</div>
+            <div class="col-md-2">Összeg</div>
+            <div class="col-md-3">Dátum</div>
+            <div class="col-md-2">Fogadó számla</div>
+            <div class="col-md-3">Leírás</div>
+        </div>
+    
+        <div class="row" *ngFor="let transaction of senderTransactions">
+    
+            <div class="col-md-2">{{ transaction.id }}</div>
+            <div class="col-md-2">{{ transaction.amount }} Ft</div>
+            <div class="col-md-3">{{ transaction.date }}</div>
+            <div class="col-md-2">{{ transaction.receiver.id }}</div>
+            <div class="col-md-3">{{ transaction.description }}</div>
+    
+        </div>  
+    </div> 
   </div>

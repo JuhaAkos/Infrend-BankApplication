@@ -14,10 +14,10 @@ export class Transaction implements TransactionDTO{
     @Column()
     date: Date;   
     
-    @ManyToOne(type => Account, (account) => account.sendertransactions)
+    @ManyToOne(type => Account, (account) => account.sendertransactions, { eager: true })
     sender: Account;
 
-    @ManyToOne(type => Account, (account) => account.receivertransactions)
+    @ManyToOne(type => Account, (account) => account.receivertransactions, { eager: true })
     receiver: Account;    
 
     @Column()

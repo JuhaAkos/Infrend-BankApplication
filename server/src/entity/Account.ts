@@ -18,9 +18,9 @@ export class Account implements AccountDTO{
     @ManyToOne(type => Client, (client) => client.accounts)
     client: Client;
 
-    @OneToMany(type => Transaction, (transaction) => transaction.sender, { eager: true })
+    @OneToMany(type => Transaction, (transaction) => transaction.sender)
     sendertransactions: Transaction[];
 
-    @OneToMany(type => Transaction, (transaction) => transaction.receiver, { eager: true })
+    @OneToMany(type => Transaction, (transaction) => transaction.receiver)
     receivertransactions: Transaction[];
 }

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AccountService } from '../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountDTO } from 'models';
+import { AccountDTO, TransactionDTO } from 'models';
+import { TransactionService } from '../services/transaction.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -11,29 +12,55 @@ import { AccountDTO } from 'models';
 export class TransactionListComponent {
   constructor(   
     private accountService: AccountService,
+    private transactionService: TransactionService,
     private activatedRoute: ActivatedRoute,
     private router: Router
     ) { }
 
   account?: AccountDTO;
-  allaccounts: AccountDTO[] = [];
+  senderTransactions: TransactionDTO[] =[];
+  receiverTransactions: TransactionDTO[] =[];
+  allTransactions: TransactionDTO[] = []; 
 
+  sendershown = false;
+  
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.params['id'];
-    this.accountService.getOne(id).subscribe({
-      next: (account) => {
-        this.account = account;
-        //console.log(this.client.accounts);
+      const id = this.activatedRoute.snapshot.params['id'];
+      //account betolt, sendertransactions es receivertransactions nem jon vele
+      this.accountService.getOne(id).subscribe({
+        next: (account) => {
+          this.account = account;
 
-        //console.log(client.accounts);
-      }
-    });    
+          //osszes tranzakcio betolt
+          this.transactionService.getAll().subscribe({
+          next: (allTransactions) => {
+              this.allTransactions = allTransactions;
 
-    this.accountService.getAll().subscribe({
-      next: (allaccounts) => {
-        this.allaccounts = allaccounts;
-      }
-      //,error: (err) => {this.toastrService.error('A termék hozzáadása nem sikerült.', 'Hiba');}
-    });    
+              //console.log(this.allTransactions.length); //itt írja ki egyedül, itt létezik
+              //console.log(this.account?.id); 
+
+              //megnezzuk, mely tranzakcioknal az account a sender/receiver, es felvesszuk oket a megfelelo tranzakcio listaba
+              for(let i=0; i<this.allTransactions.length; i++){
+                if(this.allTransactions[i].sender?.id == this.account?.id){
+                    this.senderTransactions.push(this.allTransactions[i]);
+                }
+                if(this.allTransactions[i].receiver.id == this.account?.id){
+                    this.receiverTransactions.push(this.allTransactions[i]);
+                }
+              }
+            
+          }
+          });  
+        }
+      });          
+    }
+
+  showSender() {    
+    this.sendershown=true;
   }
+
+  showReceiver() {   
+    this.sendershown=false; 
+  }
+  
 }
