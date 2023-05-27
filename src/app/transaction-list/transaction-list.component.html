@@ -2,8 +2,8 @@
     <h4>{{account?.id}} számla tranzakciói:</h4>
     <div class="row">
         <div class="col-md-3"></div>
-        <div class="col-md-3"><button class="showSenderButton" (click)="showSender()">Küldött tranzakciók mutatása</button></div>
-        <div class="col-md-3"><button class="showReceiverButton" (click)="showReceiver()">Fogadott tranzakciók mutatása</button></div>
+        <div class="col-md-4"><button class="btn btn-primary btn-md" (click)="showSender()">Küldött tranzakciók mutatása</button></div>
+        <div class="col-md-3"><button class="btn btn-primary btn-md" (click)="showReceiver()">Fogadott tranzakciók mutatása</button></div>
     </div>
 
 
@@ -49,4 +49,88 @@
     
         </div>  
     </div> 
+
+    <p></p>
+    <hr>
+
+    <div class="container" *ngIf="!isItInactive()">
+    <div class="row">
+        <div class="col-md-4" style="text-align: center">
+        <button class="btn btn-success btn-lg" (click)="openFormStandard()">Átutalás</button></div>
+        <div class="col-md-4" style="text-align: center">
+        <button class="btn btn-success btn-lg" (click)="openFormDeposit()">Banki befizetés</button></div>
+        <div class="col-md-4" style="text-align: center">
+        <button class="btn btn-success btn-lg" (click)="openFormWithDrawal()">Banki kifizetés</button></div>
+    </div>
+
+    <hr> 
+    
+        <div class="container" *ngIf="shownForm=='standard'">
+            <h4>Átutalás felvétele</h4>
+            <p></p>
+            <div class="container">
+                <form [formGroup]="standardForm">
+                    <h5>Számla jelenlegi egyenlege: {{account?.balance}} Ft</h5>
+                    <p></p>
+
+                    <label for="name" class="form-label">Átutalás összege:</label>
+                    <input type="text" class="form-control" id="amount" name="amount" formControlName="amount">
+
+                    <p></p>
+                    <label for="name" class="form-label">Címzett számla:    </label>
+                    <br>            
+                    
+                    <select class="form-select form-select-lg mb-3" formControlName="receiver">
+                        <option *ngFor="let account of accounts" [ngValue]="account">
+                            {{ account.id }}
+                        </option>
+                    </select>
+                    
+                    <label for="name" class="form-label">Átutalás üzenete:</label>
+                    <input type="text" class="form-control" id="description" name="description" formControlName="description">
+                </form>
+            </div>
+
+            <p></p>
+            <div class="col-md-12" style="text-align: center">
+                <button class="btn btn-success btn-lg" (click)="saveStandard()">Átutalás mentése</button></div>
+        </div>
+        
+        <div class="container" *ngIf="shownForm=='deposit'">
+            <h4>Banki befizetés felvétele</h4>
+            <p></p>
+            <div class="container">
+                <form [formGroup]="depositForm">
+                    <h5>Számla jelenlegi egyenlege: {{account?.balance}} Ft</h5>
+                    <p></p>
+                    
+                    <label for="name" class="form-label">Befizetett összeg:</label>
+                    <input type="text" class="form-control" id="amount" name="amount" formControlName="amount">
+                </form>
+            </div>
+            <p></p>
+            <div class="col-md-12" style="text-align: center">
+                <button class="btn btn-success btn-lg" (click)="saveDeposit()">Befizetés mentése</button></div>
+        </div>
+
+        <div class="container" *ngIf="shownForm=='withdrawal'">
+            <h4>Banki kifizetés felvétele</h4>
+            <p></p>
+            <div class="container">
+                <form [formGroup]="withDrawalForm">
+                    <h5>Számla jelenlegi egyenlege: {{account?.balance}} Ft</h5>
+                    <p></p>
+                    
+                    <label for="name" class="form-label">Kivett összeg:</label>
+                    <input type="text" class="form-control" id="amount" name="amount" formControlName="amount">
+                </form>
+            </div>
+            <p></p>
+            <div class="col-md-12" style="text-align: center">
+                <button class="btn btn-success btn-lg" (click)="saveWithDrawal()">Kifizetés mentése</button></div>
+        </div>
+
+    </div>
+      
+
   </div>
