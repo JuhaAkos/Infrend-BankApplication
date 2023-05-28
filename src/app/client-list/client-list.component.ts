@@ -101,7 +101,6 @@ export class ClientListComponent {
 
     }
     if (this.selectedValue == undefined || this.inputValue == undefined || this.inputValue.length == 0) {
-      console.log("should reload");
       //if options are missing reload all
       
       this.selectedClients = [];

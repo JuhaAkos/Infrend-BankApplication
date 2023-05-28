@@ -29,6 +29,9 @@ export class TransactionListComponent {
 
   sendershown = false;
 
+  public backupSenderTransactions: TransactionDTO[] = [];
+  public backupReceiverTransactions: TransactionDTO[] = [];
+
   withDrawalForm = this.formBuilder.group({
     amount: this.formBuilder.control(0)
   });  
@@ -80,7 +83,9 @@ export class TransactionListComponent {
                     this.receiverTransactions.push(this.allTransactions[i]);
                 }
               }
-            
+
+              this.backupSenderTransactions.push(...this.senderTransactions);
+              this.backupReceiverTransactions.push(...this.receiverTransactions);            
           }
           });  
         }
@@ -226,8 +231,97 @@ export class TransactionListComponent {
   }
 
   public selectedValue?: String;
-  public inputValue?: String;
+  public inputValue?: String;  
 
-  search() {
+  searchReceiver() {
+
+    if (this.selectedValue == "id" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+
+      this.receiverTransactions= [];
+
+      for (let i = 0; i < this.backupReceiverTransactions.length; i++) {
+        if (this.backupReceiverTransactions[i].sender?.id == Number(this.inputValue)) {
+          this.receiverTransactions.push(this.backupReceiverTransactions[i]);
+        }
+      };
+
+
+    } else if (this.selectedValue == "amount" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+     
+      this.receiverTransactions= [];
+
+      for (let i = 0; i < this.backupReceiverTransactions.length; i++) {
+
+        if (String(this.backupReceiverTransactions[i].amount) == this.inputValue) {
+          this.receiverTransactions.push(this.backupReceiverTransactions[i]);
+        }
+      };
+
+
+    } else if (this.selectedValue == "date" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+
+      this.receiverTransactions= [];
+
+      for (let i = 0; i < this.backupReceiverTransactions.length; i++) {
+        if (String(this.backupReceiverTransactions[i].date).includes(String(this.inputValue))) {
+          this.receiverTransactions.push(this.backupReceiverTransactions[i]);
+        }
+      };
+
+    }
+
+    if (this.selectedValue == undefined || this.inputValue == undefined || this.inputValue.length == 0) {
+      //if options are missing reload all
+      
+      this.receiverTransactions= [];
+      this.receiverTransactions.push(...this.backupReceiverTransactions);
+
+    }
+  }
+
+  searchSender() {
+    if (this.selectedValue == "id" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+
+      this.senderTransactions= [];
+
+      for (let i = 0; i < this.backupSenderTransactions.length; i++) {
+        if (this.backupSenderTransactions[i].receiver?.id == Number(this.inputValue)) {
+          this.senderTransactions.push(this.backupSenderTransactions[i]);
+        }
+      };
+
+
+    } else if (this.selectedValue == "amount" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+     
+      this.senderTransactions= [];
+
+      for (let i = 0; i < this.backupSenderTransactions.length; i++) {
+
+        if (String(this.backupSenderTransactions[i].amount) == this.inputValue) {
+          this.senderTransactions.push(this.backupSenderTransactions[i]);
+        }
+      };
+
+
+    } else if (this.selectedValue == "date" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+
+      this.senderTransactions= [];
+
+      for (let i = 0; i < this.backupSenderTransactions.length; i++) {
+        if (String(this.backupSenderTransactions[i].date).includes(String(this.inputValue))) {
+          this.senderTransactions.push(this.backupSenderTransactions[i]);
+        }
+      };
+
+
+    }
+
+    if (this.selectedValue == undefined || this.inputValue == undefined || this.inputValue.length == 0) {
+      //if options are missing reload all
+      
+      this.senderTransactions= [];
+      this.senderTransactions.push(...this.backupSenderTransactions);
+
+    }
   }
 }
