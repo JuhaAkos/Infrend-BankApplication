@@ -12,6 +12,7 @@ import { ClientService } from '../services/client.service';
 })
 export class ClientListComponent {
   clients: ClientDTO[] = [];
+  selectedClients: ClientDTO[] = [];
 
   constructor(
     private ClientService: ClientService,
@@ -22,8 +23,8 @@ export class ClientListComponent {
     this.ClientService.getAll().subscribe({
       next: (clients) => {
         this.clients = clients;
+        this.selectedClients.push(...this.clients);
       }
-      //,error: (err) => {this.toastrService.error('A termék hozzáadása nem sikerült.', 'Hiba');}
     });
   } 
 
@@ -58,5 +59,55 @@ export class ClientListComponent {
   navigateToForm(id : number) {
     this.router.navigate(['/client-list/form', id]);
   }
+
+  public selectedValue?: String;
+  public inputValue?: String;
+
+  search() {
+
+    if (this.selectedValue == "id" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+
+      this.selectedClients = [];
+
+      for (let i = 0; i < this.clients.length; i++) {
+        if (this.clients[i].id == Number(this.inputValue)) {
+          this.selectedClients.push(this.clients[i]);
+        }
+      };
+
+    } else if (this.selectedValue == "idcardnumber" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+
+     
+      this.selectedClients = [];
+
+
+      for (let i = 0; i < this.clients.length; i++) {
+
+        if (this.clients[i].idcardnumber == this.inputValue) {
+          this.selectedClients.push(this.clients[i]);
+        }
+      };
+
+    } else if (this.selectedValue == "name" && this.inputValue != undefined && String(this.inputValue).length != 0) {
+
+      this.selectedClients = [];
+
+      for (let i = 0; i < this.clients.length; i++) {
+        if (String(this.clients[i].lastname + this.clients[i].firstname).includes(String(this.inputValue))) {
+          this.selectedClients.push(this.clients[i]);
+        }
+      };
+
+
+    }
+    if (this.selectedValue == undefined || this.inputValue == undefined || this.inputValue.length == 0) {
+      console.log("should reload");
+      //if options are missing reload all
+      
+      this.selectedClients = [];
+      this.selectedClients.push(...this.clients);
+
+    }
+  } 
  
 }

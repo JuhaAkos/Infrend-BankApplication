@@ -14,6 +14,8 @@ import { ClientFormComponent } from './client-form/client-form.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { AccountListComponent } from './account-list/account-list.component';
 
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +27,7 @@ import { AccountListComponent } from './account-list/account-list.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     NgbModule,
     HttpClientModule,

@@ -5,6 +5,27 @@
         <p></p>
     </div>
 
+    <p></p>
+
+    <div class="row">        
+
+        <div class="col-md-1"><button class="btn btn-primary" (click)="search()">Keresés</button></div>
+
+        <div class="col-md-5">
+            <input type="text" class="form-control" id="clientinfo" name="clientinfo" placeholder="..." [(ngModel)]="inputValue">
+        </div>
+
+        <div class="col-md-5">
+            <select class="form-select" name="searchSelect" id="searchSelect"  [(ngModel)]="selectedValue">
+                <option value="id">ID</option>
+                <option value="idcardnumber">Személyi igazolvány szám</option>
+                <option value="name">Név</option>
+            </select>
+        </div>
+    </div>
+
+    <p></p>
+
     <div class="row">
         <div class="col-md-1">ID</div>        
         <div class="col-md-1">Vezetéknév</div>
@@ -13,29 +34,11 @@
         <div class="col-md-2">Telefonszám</div>
         <div class="col-md-2">Személyi</div>
 
-    </div>
+    </div>   
+    
+    <hr>
 
-    <div class="row">
-        <div class="col-md-1">Keresés: </div>        
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="clientlastName" name="clientLastName" placeholder="...">
-        </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="clientFirstName" name="clientFirstName" placeholder="...">
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="clientAddress" name="clientAddress" placeholder="...">
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="clientPhone" name="clientPhone" placeholder="...">
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="clientIDCard" name="clientIDCard" placeholder="...">
-        </div>
-        
-    </div>
-
-    <div class="row" *ngFor="let client of clients" [class.text-danger]="isInactive(client)">
+    <div class="row" *ngFor="let client of selectedClients" [class.text-danger]="isInactive(client)">
 
         <div class="col-md-1">{{ client.id }}</div>        
         <div class="col-md-1">{{ client.lastname }}</div>
