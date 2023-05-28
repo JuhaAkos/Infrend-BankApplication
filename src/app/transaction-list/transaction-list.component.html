@@ -6,9 +6,31 @@
         <div class="col-md-3"><button class="btn btn-primary btn-md" (click)="showReceiver()">Fogadott tranzakciók mutatása</button></div>
     </div>
 
-
     <div *ngIf="!sendershown">
         <h4>Fogadott tranzakciók: </h4>
+
+        <p></p>
+        <div class="row">       
+            
+            <div class="col-md-1"><button class="btn btn-primary" (click)="search()">Keresés</button></div>
+
+            <div class="col-md-5">
+                <input type="text" class="form-control" id="transactioninfo" name="transactioninfo" placeholder="..." [(ngModel)]="inputValue">
+            </div>
+
+            <div class="col-md-5">
+                <select class="form-select" name="searchSelect" id="searchSelect"  [(ngModel)]="selectedValue">
+                    <option value="id">Küldő számla</option>
+                    <option value="amount">Összeg</option>
+                    <option value="date">Dátum</option>
+                </select>
+            </div>
+            
+        </div>
+        <p></p>
+
+
+
         <div class="row">
             <div class="col-md-2">ID</div>
             <div class="col-md-2">Összeg</div>
@@ -26,11 +48,31 @@
             <div class="col-md-3">{{ transaction.description }}</div>
     
         </div>  
-    </div> 
-
+    </div>     
 
     <div *ngIf="sendershown">
         <h4>Küldött tranzakciók: </h4>
+
+        <p></p>
+        <div class="row">       
+            
+            <div class="col-md-1"><button class="btn btn-primary" (click)="search()">Keresés</button></div>
+
+            <div class="col-md-5">
+                <input type="text" class="form-control" id="transactioninfo" name="transactioninfo" placeholder="..." [(ngModel)]="inputValue">
+            </div>
+
+            <div class="col-md-5">
+                <select class="form-select" name="searchSelect" id="searchSelect"  [(ngModel)]="selectedValue">
+                    <option value="id">Fogadó számla</option>
+                    <option value="amount">Összeg</option>
+                    <option value="date">Dátum</option>
+                </select>
+            </div>
+            
+        </div>
+        <p></p>
+
         <div class="row">
             <div class="col-md-2">ID</div>
             <div class="col-md-2">Összeg</div>

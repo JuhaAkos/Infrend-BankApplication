@@ -224,4 +224,10 @@ export class TransactionListComponent {
       return false;
     }
   }
+
+  public selectedValue?: String;
+  public inputValue?: String;
+
+  search() {
+  }
 }

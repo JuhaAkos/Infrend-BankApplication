@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { ClientDTO, AccountDTO } from 'models';
+import { ClientDTO, AccountDTO, TransactionDTO } from 'models';
 import { ClientService } from '../services/client.service';
 
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
+import { TransactionService } from '../services/transaction.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -17,6 +18,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class AccountListComponent {
   constructor(   
     private clientService: ClientService,
+    private transactionService: TransactionService,
     private formBuilder: FormBuilder,
     private accountService: AccountService,
     private toastrService: ToastrService,
@@ -62,10 +64,10 @@ export class AccountListComponent {
   }
 
   makeAccountInactive(account: AccountDTO){
-    account.status="inactive";
-    account.balance=0;
+    this.makeInactiveTransaction(account);
 
-    //tranzakció?
+    account.status="inactive";
+    account.balance=0;    
 
     this.accountService.update(account).subscribe({
     next: (account) => {
@@ -75,6 +77,15 @@ export class AccountListComponent {
         this.toastrService.error('Számla módosítása nem sikerült', 'Hiba')
       }
     });    
+  }
+
+  makeInactiveTransaction(account: AccountDTO){
+    let transaction: TransactionDTO = {id: 0, amount: account.balance, date: new Date(), sender: account, receiver: null, description: "Számla kinullázás"};       
+
+    this.transactionService.create(transaction).subscribe({
+      next: (transaction) => {}        
+    });    
+    
   }
 
   openForm(){
