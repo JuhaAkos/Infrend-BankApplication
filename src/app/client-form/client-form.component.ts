@@ -91,24 +91,29 @@ export class ClientFormComponent {
   saveClient() {    
     const client = this.clientForm.value as ClientDTO;
     //this is needed because it otherwise doesn't get value
-    client.id=this.generatedid;
+
     if (this.isNewClient) {
+      client.id=this.generatedid;
         this.clientService.create(client).subscribe({
           next: (client) => {
             this.toastrService.success('Ügyfél hozzáadva, id:' + client.id , 'Siker');
           },
           error: (err) => { 
-            this.toastrService.error('Ügyfél hozzáadása sikertleen');
+            this.toastrService.error('Ügyfél hozzáadása sikertelen');
           }
         });
     } else if(this.existingclient != undefined) {
+        if (client.status == "inactive"){
+          this.toastrService.error('Inaktív ügyfél adatai nem módosíthatóak');
+          return;
+        }
         client.accounts=this.existingclient.accounts;
         this.clientService.update(client).subscribe({
           next: (client) => {
             this.toastrService.success('Ügyfél módosítva, id:' + client.id , 'Siker');
           },
           error: (err) => { 
-            this.toastrService.error('Ügyfél módosítása sikertleen');
+            this.toastrService.error('Ügyfél módosítása sikertelen');
           }
         });
     } else {

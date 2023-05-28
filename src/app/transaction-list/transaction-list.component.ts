@@ -5,6 +5,7 @@ import { AccountDTO, TransactionDTO } from 'models';
 import { TransactionService } from '../services/transaction.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-transaction-list',
@@ -26,6 +27,7 @@ export class TransactionListComponent {
   receiverTransactions: TransactionDTO[] =[];
   allTransactions: TransactionDTO[] = [];
   accounts: AccountDTO[] = [];
+  backupAccounts: AccountDTO[] = [];
 
   sendershown = false;
 
@@ -55,42 +57,57 @@ export class TransactionListComponent {
 
           this.accountService.getAll().subscribe({
             next: (accounts) => {
-                this.accounts = accounts;
-                for(let i=0; i<this.accounts.length; i++){
-                  
-                  if (this.accounts[i].id == this.account?.id) {
-                    
+                this.backupAccounts = accounts;
+                this.accounts = [];
+                for(let i=0; i<this.backupAccounts.length; i++){  
+                  if (this.backupAccounts[i].status == "active") {
+                    this.accounts.push(this.backupAccounts[i]);
+                  }
+                }
+                for(let i=0; i<this.accounts.length; i++){                  
+                  if (this.accounts[i].id == this.account?.id) {                    
                     this.accounts.splice(i, 1);
+                    break;
                   }
                 }
             }
           });
 
           //osszes tranzakcio betolt
-          this.transactionService.getAll().subscribe({
-          next: (allTransactions) => {
-              this.allTransactions = allTransactions;
-
-              //console.log(this.allTransactions.length); //itt írja ki egyedül, itt létezik
-              //console.log(this.account?.id); 
-
-              //megnezzuk, mely tranzakcioknal az account a sender/receiver, es felvesszuk oket a megfelelo tranzakcio listaba
-              for(let i=0; i<this.allTransactions.length; i++){
-                if(this.allTransactions[i].sender?.id == this.account?.id){
-                    this.senderTransactions.push(this.allTransactions[i]);
-                }
-                if(this.allTransactions[i].receiver?.id == this.account?.id){
-                    this.receiverTransactions.push(this.allTransactions[i]);
-                }
-              }
-
-              this.backupSenderTransactions.push(...this.senderTransactions);
-              this.backupReceiverTransactions.push(...this.receiverTransactions);            
-          }
-          });  
+          this.loadAllTransactions();
+          
         }
       });       
     }
+
+  loadAllTransactions(){
+    this.senderTransactions = [];
+    this.backupSenderTransactions = [];
+    this.receiverTransactions = [];
+    this.backupReceiverTransactions = [];
+
+    this.transactionService.getAll().subscribe({
+      next: (allTransactions) => {
+          this.allTransactions = allTransactions;           
+
+          //megnezzuk, mely tranzakcioknal az account a sender/receiver, es felvesszuk oket a megfelelo tranzakcio listaba
+          
+          for(let i=0; i<this.allTransactions.length; i++){
+            this.allTransactions[i].date=new Date(this.allTransactions[i].date);
+            if(this.allTransactions[i].sender?.id == this.account?.id){
+                this.senderTransactions.push(this.allTransactions[i]);
+               
+            }
+            if(this.allTransactions[i].receiver?.id == this.account?.id){
+                this.receiverTransactions.push(this.allTransactions[i]);
+            }
+          }
+
+          this.backupSenderTransactions.push(...this.senderTransactions);
+          this.backupReceiverTransactions.push(...this.receiverTransactions);            
+      }
+      });  
+  }
 
   showSender() {    
     this.sendershown=true;
@@ -127,7 +144,12 @@ export class TransactionListComponent {
   saveWithDrawal(){
     const transaction = this.withDrawalForm.value as TransactionDTO;
 
-    transaction.date = new Date();
+    if (transaction.amount <= 0) {
+      this.toastrService.error('Negatív pénzösszeg nem vehető');
+      return;
+    }  
+
+    transaction.date = new Date();    
     if (this.account != undefined ){
       transaction.sender = this.account;
     }    
@@ -149,6 +171,10 @@ export class TransactionListComponent {
 
   saveDeposit(){
     const transaction = this.depositForm.value as TransactionDTO;
+    if (transaction.amount <= 0) {
+      this.toastrService.error('Negatív pénzösszeg nem fizethető be');
+      return;
+    }  
 
     transaction.date = new Date();
     if (this.account != undefined ){
@@ -167,8 +193,12 @@ export class TransactionListComponent {
     this.createTransaction(transaction);
   }
 
-  saveStandard(){
-    const transaction = this.standardForm.value as TransactionDTO;    
+  saveStandard(){    
+    const transaction = this.standardForm.value as TransactionDTO; 
+    if (transaction.amount <= 0) {
+      this.toastrService.error('Negatív pénzösszeg nem utalható');
+      return;
+    }   
 
     transaction.date = new Date();
     if (this.account != undefined ){
@@ -187,26 +217,23 @@ export class TransactionListComponent {
           this.toastrService.error('A címzett számla inaktív');
           return;
         }
-        console.log(transaction.receiver.balance);
         transaction.receiver.balance += +transaction.amount;
         this.updateBalance(transaction.receiver);
-        console.log(transaction.receiver.balance);
       }
-
+      console.log(transaction.date);
       this.account.balance = newBalance;
       this.updateBalance(this.account);
-    }
-
-      
+    }      
     
     this.createTransaction(transaction);
+    
   }
 
   createTransaction(transaction: TransactionDTO){
     this.transactionService.create(transaction).subscribe({
       next: (transaction) => {
         this.toastrService.success('Tranzakció hozzáadva, id:' + transaction.id , 'Siker');
-        window.location.reload();
+        this.loadAllTransactions();
       },
       error: (err) => { 
         this.toastrService.error('Tranzakció hozzáadása sikertleen');

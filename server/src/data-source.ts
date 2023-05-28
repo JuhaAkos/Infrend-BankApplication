@@ -16,4 +16,5 @@ export const AppDataSource = new DataSource({
     entities: [User, Client, Account, Transaction],
     migrations: [],
     subscribers: [],
+    timezone: "+02:00",
 })

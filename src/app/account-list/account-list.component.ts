@@ -88,6 +88,15 @@ export class AccountListComponent {
     
   }
 
+  makeStarterTransaction(account: AccountDTO){
+    let transaction: TransactionDTO = {id: 0, amount: account.startingBalance, date: new Date(), sender: null, receiver: account, description: "Számlanyitás"};       
+
+    this.transactionService.create(transaction).subscribe({
+      next: (transaction) => {}        
+    });    
+    
+  }
+
   openForm(){
     if (this.newFormOpened) {
       this.newFormOpened = false;
@@ -127,15 +136,16 @@ export class AccountListComponent {
     if (this.client != undefined) {
       account.client = this.client;
     }   
-    account.status="active";
-    console.log(account.startingBalance);
+    account.status="active";    
+
     this.accountService.create(account).subscribe({
       next: (account) => {
-        this.loadClientData();
-        window.location.reload();
+        this.makeStarterTransaction(account);
+        this.loadClientData(); 
+        this.toastrService.success('Számla hozzáadása sikeres');      
       },
       error: (err) => {
-        this.toastrService.error('Ügyfél hozzáadása sikertleen');
+        this.toastrService.error('Számla hozzáadása sikertelen');
       }
     });   
     
