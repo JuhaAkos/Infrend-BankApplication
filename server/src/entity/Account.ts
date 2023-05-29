@@ -6,7 +6,7 @@ import { Client } from "./Client";
 @Entity()
 export class Account implements AccountDTO{
 
-    @PrimaryColumn()
+    @PrimaryColumn({ type: "decimal" })
     id: number;
 
     @Column()
